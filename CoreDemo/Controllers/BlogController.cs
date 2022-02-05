@@ -3,6 +3,7 @@ using DataAccessLayer.EntityFramework;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,7 +14,13 @@ namespace CoreDemo.Controllers
         BlogManager blogManager = new BlogManager(new EfBlogRepository());
         public IActionResult Index()
         {
-            var values = blogManager.GetList();
+            var values = blogManager.GetBlogListWİthCategory();
+            return View(values);
+        }
+        public IActionResult BlogReadAll(int id)
+        {
+            ViewBag.i = id;
+            var values = blogManager.GetBlogById(id);
             return View(values);
         }
     }
