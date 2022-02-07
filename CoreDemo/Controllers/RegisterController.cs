@@ -15,11 +15,10 @@ namespace CoreDemo.Controllers
     public class RegisterController : Controller
     {
         WriterManager writerManager = new WriterManager(new EfWriterRepository());
-        [HttpGet]
-        public IActionResult Index()
+        List<SelectListItem> cities;
+        public RegisterController()
         {
-            //deneme şehir çekme
-            List<SelectListItem> cities = new()
+            cities = new()
             {
                 new SelectListItem { Value = "1", Text = "Latur" },
                 new SelectListItem { Value = "2", Text = "Solapur" },
@@ -32,6 +31,10 @@ namespace CoreDemo.Controllers
                 new SelectListItem { Value = "9", Text = "Delhi" },
                 new SelectListItem { Value = "10", Text = "Noida" }
             };
+        }
+        [HttpGet]
+        public IActionResult Index()
+        {
             ViewBag.cities = cities;
             return View();
         }
@@ -52,8 +55,8 @@ namespace CoreDemo.Controllers
                 foreach (var item in result.Errors)
                 {
                     ModelState.AddModelError(item.PropertyName,item.ErrorMessage);
-                    ModelState.AddModelError(item.PropertyName,item.ErrorMessage);
                 }
+                ViewBag.cities = cities;
             }
             return View();
         }
