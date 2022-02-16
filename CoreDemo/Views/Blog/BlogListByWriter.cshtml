@@ -1,0 +1,75 @@
+﻿@using EntityLayer.Concrete
+@model List<Blog>
+@{
+    ViewData["Title"] = "BlogListByWriter";
+    Layout = "~/Views/Shared/WriterLayout.cshtml";
+}
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/web/js/bootstrap.js"></script>
+<script src="~/web/js/jquery-2.2.3.min.js"></script>
+
+<h1>Yazarın Blogları</h1>
+<table class="table table-danger">
+    <tr>
+        <th>#</th>
+        <th>Blog Başlığı</th>
+        <th>Oluşturma Tarihi</th>
+        <th>Kategori</th>
+        <th>Durumu</th>
+        <th>Sil</th>
+        <th>Düzenle</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <th>@item.BlogID</th>
+            <td>@item.BlogTitle</td>
+            <td>@(((DateTime)item.BlogCreateDate).ToString("dd-MM-yyyy"))</td>
+            <td>
+                <span class="badge badge-primary">@item.Category.CategoryName</span>
+            </td>
+            <td>
+                @if (item.BlogStatus)
+                {
+                    <span class="badge badge-success">Aktif</span>
+                }
+                else
+                {
+                    <span class="badge badge-secondary">Pasif</span>
+                }
+            </td>
+            <td><a href="/Blog/DeleteBlog/@item.BlogID" class="btn btn-danger">Sil</a></td>
+            <td><a href="/Blog/EditBlog/@item.BlogID" class="btn btn-warning">Düzenle</a></td>
+        </tr>
+    }
+</table>
+<!---->
+<br />
+<a href="/Blog/BlogAdd/" class="btn btn-primary">Yeni Blog Oluştur</a>
+<a href="#" id="btn1">Okudum</a>
+<script>
+    $(document).ready(function () {
+        $("#btn1").click(function () {
+            swal({
+                title: "Emin Misiniz?",
+                text: "Kayıt Silinecek,Emin Misiniz?",
+                icon: "warning",
+                buttons: ["İptal Et", "Evet"]
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        swal("Kayıt Başarıyla Silindi", {
+                            button: "Tamam",
+                             icon: "success",
+                        });
+                    } else {
+                        swal("Kayıt Silinmedi", {
+                            button: "Tamam",
+                            icon: "success",
+                        });
+                    }
+                });
+        });
+    });
+</script>

@@ -1,0 +1,55 @@
+﻿@model EntityLayer.Concrete.Blog
+@{
+    ViewData["Title"] = "EditBlog";
+    Layout = "~/Views/Shared/WriterLayout.cshtml";
+}
+
+<h1>Blog Düzenleme Sayfası</h1>
+@using (Html.BeginForm("EditBlog", "Blog", FormMethod.Post))
+{
+    @Html.Hidden("Blog ID")
+    @Html.HiddenFor(x => x.BlogID, new { @class = "form-control" })
+    <br />
+    @Html.Label("Blog Başlığı")
+    @Html.TextBoxFor(x => x.BlogTitle, new { @class = "form-control" })
+    <br />
+    @Html.Label("Blog Thumbnail Url")
+    @Html.TextBoxFor(x => x.BlogThumbnailImage, new { @class = "form-control" })
+    <br />
+    @Html.Label("Blog Görseli")
+    @Html.TextBoxFor(x => x.BlogImage, new { @class = "form-control" })
+    <br />
+    @Html.Label("Blog Kategori")
+    @Html.DropDownListFor(x => x.CategoryID, (List<SelectListItem>)ViewBag.cv, new { @class = "form-control" })
+    <br />
+    @Html.Label("Blog İçeriği")
+    @Html.TextBoxFor(x => x.BlogContent, new { @class = "form-control" })
+    <br />
+    <button class="btn btn-success">Güncelle</button>
+}
+<!--<td>
+<button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#Sil_item.BlogID">
+    Sil
+</button>
+
+<div class="modal fade" id="Sil_item.BlogID" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Blog Sil</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h4>Bloğu silmek istiyor musunuz?</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info mx-4" data-dismiss="modal">Vazgeç</button>
+                Html.ActionLink("Sil", "DeleteBlog", new { id = item.BlogID }, new {class = "btn btn-danger mx-4" })
+            </div>
+        </div>
+    </div>
+</div>
+                            </td>
+-->
