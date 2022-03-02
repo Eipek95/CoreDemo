@@ -39,7 +39,8 @@ namespace CoreDemo
             services.AddMvc();
             services.AddAuthentication(
                 CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(x=> {
+                .AddCookie(x =>
+                {
                     x.LoginPath = "/Login/Index";
                 });
         }
@@ -61,16 +62,20 @@ namespace CoreDemo
             app.UseStatusCodePagesWithReExecute("/ErrorPage/Error1", "?code={0}");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-           // app.UseSession();
+            // app.UseSession();
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
+                  name: "areas",
+                  pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");//areas ilk baþladýðýnda
+
+                endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");//sayfa ilk açýldýðýnda
             });
         }
     }
-} 
+}
