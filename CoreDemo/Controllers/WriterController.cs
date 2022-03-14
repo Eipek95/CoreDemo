@@ -6,6 +6,7 @@ using DataAccessLayer.EntityFramework;
 using EntityLayer.Concrete;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,14 @@ namespace CoreDemo.Controllers
     public class WriterController : Controller
     {
         WriterManager writerManager = new WriterManager(new EfWriterRepository());
+
+        private readonly UserManager<AppUser> _userManager;
+
+        public WriterController(UserManager<AppUser> userManager)
+        {
+            _userManager = userManager;
+        }
+
         [Authorize]
         public IActionResult Index()
         {
@@ -51,10 +60,12 @@ namespace CoreDemo.Controllers
         public IActionResult WriterEditProfile()
         {
             Context context = new Context();
-            var usermail = User.Identity.Name;
-            var writeID = context.Writers.Where(x => x.WriterMail == usermail).Select(y => y.WriteID).FirstOrDefault();
-            var writervalues = writerManager.TGetById(writeID);
-            return View(writervalues);
+            var userName = User.Identity.Name;
+            var userMail = context.Users.Where(x => x.UserName == userName).Select(y => y.Email).FirstOrDefault();
+            UserManager userManager = new UserManager(new EfUserRepository());
+            var id = context.Users.Where(x=>x.Email==userMail).Select(x=>x.Id).FirstOrDefault();
+            var values = userManager.TGetById(id);
+            return View(values);
         }
         [HttpPost]
         public IActionResult WriterEditProfile(Writer p)

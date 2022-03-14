@@ -1,4 +1,6 @@
-﻿using EntityLayer.Concrete;
+﻿using EntityLayer;
+using EntityLayer.Concrete;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -6,7 +8,7 @@ using System.Text;
 
 namespace DataAccessLayer.Concrete
 {
-    public class Context:DbContext//miras-inheritance
+    public class Context:IdentityDbContext<AppUser,AppRole,int>//miras-inheritance
     {
         protected override void OnConfiguring(DbContextOptionsBuilder OptionsBuilder)
         {
@@ -37,6 +39,7 @@ namespace DataAccessLayer.Concrete
                 .HasForeignKey(z => z.RecieverID)
                 .OnDelete(DeleteBehavior.ClientSetNull);
 
+            base.OnModelCreating(modelBuilder);//identity
             //HomeMatches---->WriterSender
             //AwayMatches---->WriterReciever
 
