@@ -1,61 +1,40 @@
-﻿@model EntityLayer.Concrete.AppUser
+﻿@model UserUpdateViewModel
 @{
     ViewData["Title"] = "WriterEditProfile";
     Layout = "~/Views/Shared/WriterLayout.cshtml";
 }
 
-@using (Html.BeginForm("WriterEditProfile", "Writer", FormMethod.Post))
-{
-<div class="col-12 grid-margin stretch-card">
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">Yazar Profil Bilgileri Düzenleme</h4>
-            <input type="hidden" class="form-control" id="exampleInputName1" asp-for="Id" placeholder="WriterID">
-            <br />
-            <form class="forms-sample">
-                <div class="form-group">
-                    <label for="exampleInputName1">Yazar Ad Soyad</label>
-                    <input type="text" class="form-control" id="exampleInputName1" asp-for="NameSurname" placeholder="Name">
-                    @Html.ValidationMessageFor(x => x.NameSurname)
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail3">Kullanıcı Adı</label>
-                    <input type="text" class="form-control" id="exampleInputEmail3" asp-for="UserName" placeholder="Kullanıcı Adı">
-                    @Html.ValidationMessageFor(x => x.UserName)
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail3">Mail Adresi</label>
-                    <input type="email" class="form-control" id="exampleInputEmail3" asp-for="Email" placeholder="Email">
-                    @Html.ValidationMessageFor(x => x.Email)
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword4">Şifre</label>
-                    <input type="password" class="form-control" id="exampleInputPassword4" asp-for="PasswordHash" placeholder="Şifre">
-                    @Html.ValidationMessageFor(x => x.PasswordHash)
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword4">Şifre Tekrar</label>
-                    <input type="password" class="form-control" id="exampleInputPassword4" asp-for="PasswordHash" placeholder="Şifre Tekrar">
-                    @Html.ValidationMessageFor(x => x.PasswordHash)
-                </div>
-                <div class="form-group">
-                    <label>Yazar Görsel</label>
-                    <input type="file" name="img[]" class="file-upload-default">
-                    <div class="input-group col-xs-12">
-                        <input type="text" class="form-control file-upload-info" disabled placeholder="Yüklenecek Resim">
-                        <span class="input-group-append">
-                            <button class="file-upload-browse btn btn-gradient-primary" type="button">Resim Seç</button>
-                        </span>
+
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">Yazar Profil Bilgileri Düzenleme</h4>
+                <br />
+                <form class="forms-sample" method="post">
+                    <div class="form-group">
+                        <label for="exampleInputName1">Yazar Ad Soyad</label>
+                        <input type="text" class="form-control" asp-for="@Model.namesurname" placeholder="Name">
                     </div>
-                </div>
-                @*<div class="form-group">
-                    <label for="exampleTextarea1">Yazar Hakkında</label>
-                    <textarea class="form-control" id="exampleTextarea1" asp-for="WriterAbout" rows="4"></textarea>
-                </div>*@
-                <button type="submit" class="btn btn-gradient-primary mr-2">Güncelle</button>
-                <button class="btn btn-light">İptal</button>
-            </form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail3">Kullanıcı Adı</label>
+                        <input type="text" class="form-control" asp-for="@Model.username" placeholder="Kullanıcı Adı">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail3">Mail Adresi</label>
+                        <input type="email" class="form-control" asp-for="@Model.mail" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail3">Yeni Şifre</label>
+                        <input type="text" class="form-control" asp-for="@Model.password" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail3">resim yolu</label>
+                        <input type="text" class="form-control" asp-for="@Model.imageurl" placeholder="Resim Yolu">
+                    </div>
+                    <button type="submit" class="btn btn-gradient-primary mr-2">Güncelle</button>
+                    <button class="btn btn-light">İptal</button>
+                </form>
+            </div>
         </div>
     </div>
-</div>
-}
+

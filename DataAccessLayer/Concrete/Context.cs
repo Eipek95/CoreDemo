@@ -12,7 +12,9 @@ namespace DataAccessLayer.Concrete
     {
         protected override void OnConfiguring(DbContextOptionsBuilder OptionsBuilder)
         {
-            OptionsBuilder.UseSqlServer("server=DESKTOP-THOD234;database=CoreBlogDb; integrated security=true;");
+            //OptionsBuilder.UseSqlServer("server=DESKTOP-THOD234;database=CoreBlogDb; integrated security=true;");
+            OptionsBuilder.UseSqlServer("server=SQL8001.site4now.net;database=CoreBlogDb; integrated security=true;user=db_a85b0f_coreblogdb_admin;password=H!t82!!_!PeeG5U");
+
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)//codefirst two foreign keys from same table
         {

@@ -34,13 +34,13 @@
                         <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                         <form role="search" class="navbar-form-custom" action="search_results.html">
                             <div class="form-group">
-                                <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
+                                <input type="text" placeholder="Aranacak Kelimeyi Girin..." class="form-control" name="top-search" id="top-search">
                             </div>
                         </form>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
-                            <span class="m-r-sm text-muted welcome-message">Welcome to INSPINIA+ Admin Theme.</span>
+                            <span class="m-r-sm text-muted welcome-message">Admin paneline hoşgeldiniz</span>
                         </li>
                         <li class="dropdown">
                             <a class="dropdown-toggle count-info" data-toggle="dropdown" href="#">
@@ -141,32 +141,14 @@
 
                         <li>
                             <a href="login.html">
-                                <i class="fa fa-sign-out"></i> Log out
+                                <i class="fa fa-sign-out"></i> Çıkış Yap
                             </a>
                         </li>
                     </ul>
 
                 </nav>
             </div>
-            <div class="row wrapper border-bottom white-bg page-heading">
-                <div class="col-lg-10">
-                    <h2>Static Tables</h2>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">
-                            <a href="index.html">Home</a>
-                        </li>
-                        <li class="breadcrumb-item">
-                            <a>Tables</a>
-                        </li>
-                        <li class="breadcrumb-item active">
-                            <strong>Static Tables</strong>
-                        </li>
-                    </ol>
-                </div>
-                <div class="col-lg-2">
-
-                </div>
-            </div>
+            
             <div class="wrapper wrapper-content animated fadeInRight">
                 @RenderBody()
             </div>
@@ -212,8 +194,96 @@
             });
         });
     </script>
+    <script>
+        $("#btngetlist").click(function () {
+            $.ajax({
+                contentType: "application/json",
+                dataType: "json",
+                type: "Get",
+                url: "/Admin/Writer/WriterList/",
+                success: function (func) {
+                    let w = jQuery.parseJSON(func);
+                    //console.log(w);
+                    let tablehtml = "<table class=table table-bordered><tr><th>Yazar ID</th><th>Yazar Adı</th></tr >";
+                    $.each(w, (index, value) => {
+                        tablehtml += `<tr><td>${value.ID}</td><td>${value.Name}</td></tr>`//altgr + ; tuşları ->`` işaretini basar
+                    });
+                    tablehtml += "</table>";
+                    $("#writerlist").html(tablehtml)
+                }
+            });
+        });
+
+        $("#btngetbyid").click(x => {
+            let id = $("#controllerInId").val();//dışarıdan gelen değeri oku
+            $.ajax({
+                contentType: "application/json",
+                dataType: "json",
+                type: "get",
+                url: "/Admin/Writer/GetWriterByID/",
+                data: { controllerInId: id },
+                success: function (func) {
+                    let w = jQuery.parseJSON(func);
+                    if (w != null) {
+                        console.log(w);
+
+                        let getvalue = `<table class="table table-bordered"><tr><th>Yazar ID</th> <th>Yazar Adı</th></tr><tr><td>${w.ID}</td><td>${w.Name}</td></tr></table>`;
+                        $("#writerget").html(getvalue);
+                    }
+                    else {
+                        console.log("Yazar Bulunamadı");
+                    }
+                }
+            });
+        });
+
+
+        $("#btnaddwriter").click(function () {
+            let writer = {
+                Id: $("#txtwriterId").val(),
+                Name: $("#txtwritername").val()
+            };
+            $.ajax({
+                type: "post",
+                url: "/Admin/Writer/AddWriter/",
+                data: writer,//yukarıda tanımladığımız
+                success: function (func) {
+                    let result = jQuery.parseJSON(func);
+                    alert("Yazar Ekleme İşlemi Başarılı Bir Şekilde Gerçekleşti")
+                }
+            });
+        });
+
+        $("#btndeletewriter").click(x => {
+            let id = $("#txtdeletewriterId").val();
+            $.ajax({
+                url: "/Admin/Writer/DeleteWriter/" + id,
+                type: "post",
+                dataType: "json",
+                success: function (func) {
+                    alert("Yazar Silinme İşlemi Başarılı Bir Şekilde Gerçekleşti");
+                }
+            });
+        });
+
+
+        $("#btnupdatewriter").click(function () {
+            let writer = {
+                Id: $("#txtupdatewriterId").val(),
+                Name: $("#txtupdatewritername").val()
+            };
+            $.ajax({
+                type: "post",
+                url: "/Admin/Writer/UpdateWriter/",
+                data: writer,
+                success: function (func) {
+                    alert("Güncelleme Yapıldı");
+                }
+            });
+        });
+    </script>
     <!--myscripts custom-->
-    @*@await RenderSectionAsync("scripts")*@
+
 </body>
 
 </html>
